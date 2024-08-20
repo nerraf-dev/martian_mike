@@ -45,6 +45,5 @@ func update_animation(direction):
 	
 		
 func jump(force):
-	force = -force
 	print("Jumping with force: ", force)
-	velocity.y = force
+	velocity.y = -force
