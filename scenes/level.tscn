@@ -1,26 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxxg6ilmsttqi"]
+[gd_scene load_steps=7 format=3 uid="uid://dxxg6ilmsttqi"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_sv0vo"]
 [ext_resource type="PackedScene" uid="uid://bns85mk01t7eo" path="res://scenes/player.tscn" id="2_pv4ik"]
 [ext_resource type="Texture2D" uid="uid://dsndgqx7msrkf" path="res://icon.svg" id="3_eketa"]
+[ext_resource type="PackedScene" uid="uid://dw74xxywug3n8" path="res://scenes/jump_pad.tscn" id="4_nbova"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ni6lh"]
 size = Vector2(278, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efv3i"]
+size = Vector2(1108, 24)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_sv0vo")
 
 [node name="Player" parent="." instance=ExtResource("2_pv4ik")]
-position = Vector2(232, 49)
+position = Vector2(82, 57)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Camera2D" parent="Player" index="2"]
+visible = false
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(2, 215)
+scale = Vector2(1.45236, 1.01316)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
 modulate = Color(0.09, 0.09, 0.09, 1)
-position = Vector2(248, 181.5)
+position = Vector2(-0.772644, -0.30513)
 scale = Vector2(2.17188, 0.226562)
 texture = ExtResource("3_eketa")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(248, 181.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(-0.772675, -0.30513)
 shape = SubResource("RectangleShape2D_ni6lh")
+
+[node name="Deathzone" type="Area2D" parent="."]
+position = Vector2(170, 316)
+collision_layer = 128
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Deathzone"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_efv3i")
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(38, 48)
+
+[node name="JumpPad" parent="." instance=ExtResource("4_nbova")]
+position = Vector2(-60, 186)
+jump_height = 150
+
+[node name="JumpPad2" parent="." instance=ExtResource("4_nbova")]
+position = Vector2(-98, 186)
+
+[node name="JumpPad3" parent="." instance=ExtResource("4_nbova")]
+position = Vector2(-147, 186)
+jump_height = 500
+
+[connection signal="body_entered" from="Deathzone" to="." method="_on_deathzone_body_entered"]
+
+[editable path="Player"]
