@@ -36,7 +36,7 @@ shape = SubResource("RectangleShape2D_ni6lh")
 
 [node name="Deathzone" type="Area2D" parent="."]
 position = Vector2(170, 316)
-collision_layer = 128
+collision_layer = 8
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deathzone"]
